@@ -1,50 +1,52 @@
-public abstract class Account implements BaseInterestRate {
+public abstract class Account implements BaseInterestRate{
+   protected String name;
+   protected String ssn;
+   protected double balance;
+   protected String accountNumber;
+   protected String routingNumber;
+   protected double interestRate;
 
-  protected String name; 
-  protected String ssn;
-  protected String balance; 
-  protected String accountNumber;
-  protected long routingNumber;
-  protected double interestRate;
+    public Account(String name, String ssn, double balance) {
+        this.name = name;
+        this.ssn = ssn;
+        this.balance = balance;
+        accountNumber=generateAccountNumber();
+        routingNumber=generateRoutingNumber();
+        interestRate = getBaseInterestRate();
 
+    }
 
-  public Account (String name, String ssn, String balance) {
-  this.name = name;
-  this.ssn = ssn;
-  this.balance = balance;
-  this.accountNumber= generateAccountNumber();
-  this.routingNumber= generateRoutingNumber();
-  this.interestRate=getBaseInterestRate();
-}
+    public  String generateAccountNumber(){
+        StringBuilder addSeven= new StringBuilder();
+        for (int i = 0; i<7; i++)
+            addSeven.append((int) (Math.random() * 10));
 
-  public String generateAccountNumber(){
-    String result="";
-   int num = (int)((Math.random() * 900000000)+1000000000);
-     result =ssn.substring(ssn.length()-4) + num;
-     return result;
-  }
-  
-	public long generateRoutingNumber(){
-    int num = (int)((00+Math.random() * 9000000)+100000000);
-    return num;
-  }
+        return ssn.substring(7)+addSeven;
+    }
 
-  public void deposit (double amount){
-    balance = amount + balance;
-   System.out.println(balance);   
-  }
+    public static String generateRoutingNumber(){
+     String account ="00";
+        for (int i = 0; i < 7; i++) {
+     int res = (int) (Math.random()*10);
+     account+=res;
+        }
+        return account;
+    }
+    public void deposit(double Amount){
+     this.balance = Amount;
+        System.out.println("Current amount is: "+ this.balance);
+    }
+    public void withdraw(double Amount){
+     if (Amount>balance){
+         System.out.println("Balance $"+balance);
+     }else {
+         this.balance-=Amount;
+         System.out.println("Current balance is"+this.balance);
+     }
 
-  // public void withdraw (double amount){
-  //   if (amount <= balance){
-  //   System.out.println ( balance - amount);
-  //   }
-  //   else if (amount > (balance)){
-  //     System.out.println("ERROR"); 
-  //   }
-  //   }
-  
-  public String showInfo() {
-    return "NAME: " + name + "\n" + "SSN: " + ssn + "\n" + "ACCOUNT NUMBER: " + accountNumber + "\n" + "ROUTING NUMBER: " + routingNumber + "\n" + "BALANCE: " + balance;
-   }
+    }
 
+    public String showInfo(){
+        return "NAME: "+ name + "\nSSN: "+ ssn+"\nACCOUNT NUMBER: "+ accountNumber+"\nROUTING NUMBER: "+routingNumber+"\nBALANCE: "+balance;
+    }
 }
